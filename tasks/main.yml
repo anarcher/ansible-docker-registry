@@ -1,0 +1,8 @@
+---
+
+- name: Run registry container
+  docker: 
+      image: registry 
+      ports: "{{ registry.host_port}}:{{ registry.container_port }}"
+      env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% endfor %}"
+

@@ -1,0 +1,12 @@
+galaxy_info:
+    author: anarcher
+    company: darkside ltd.
+    description: Ansible Role to deploy/configurat Private Docker Registry on Ubuntu 14.04 (or later) 
+    license: MIT
+    platforms:
+    - name: Ubuntu
+      versions:
+      - all
+    categories:
+    - system
+    - development
