@@ -6,7 +6,7 @@ galaxy_info:
     platforms:
     - name: Ubuntu
       versions:
-      - all
+      - 14.04
     categories:
     - system
     - development

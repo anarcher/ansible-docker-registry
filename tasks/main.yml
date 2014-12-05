@@ -1,4 +1,6 @@
 ---
+- include: install_docker_ubuntu.yml
+  when: "ansible_os_family == 'Ubuntu'"
 
 - name: Run registry container
   docker: 
@@ -6,3 +8,32 @@
       ports: "{{ registry.host_port}}:{{ registry.container_port }}"
       env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% endfor %}"
 
+- name: Install nginx server
+  apt: pkg=nginx{{ "="+nginx.version | default("") }} state=present update_cache=true cache_valid_time=3600
+
+- name: Install python-passlib for htpasswd ansible module
+  apt: pkg=python-passlib state=present update_cache=true #for htpasswd
+
+- name: Make basic auth for nginx
+  htpasswd:
+      path: "{{ nginx.auth_basic_user_file }}"
+      name: "{{ nginx.username }}"
+      password: "{{ nginx.password }}"
+      owner: root
+      group: root
+      mode: 0640
+      state: present
+  when: nginx.auth_basic != "off"
+
+- name: Copy crt for nginx ssl
+  copy: src={{ nginx.ssl_certificate_src }} dest={{ nginx.ssl_certificate }}
+  when: nginx.ssl == "on"
+
+- name: Copy csr for nginx ssl 
+  copy: src= {{ nginx.ssl_certificate_key_src }} dest={{ nginx.ssl_certificate_key }}
+  when: nginx.ssl == "on"
+
+- name: Make nginx configuration for registry 
+  template: src=nginx.registry.conf dest={{ nginx.config_file }}
+  notify:
+      - start nginx

@@ -1,0 +1,13 @@
+---
+
+- name: Add docker apt repository key
+  apt_key: url=https://get.docker.io/gpg state=present
+
+- name: Add docker apt repository
+  apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present
+
+- name: install docker via apt
+  apt: pkg=docker.io{{ "="+docker.version | default("") }} state=present update_cache=yes
+
+
+
