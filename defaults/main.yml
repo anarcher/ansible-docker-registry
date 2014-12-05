@@ -1,19 +1,28 @@
 ---
 docker:
     version: "*"
+redis:
+    version: "latest"
+    port: "6379"
 registry:
     scale: 1
     domain: "localhost"
     host_port: 5000
     container_port: 5000
+    settings_flavor: s3
     storage: s3
     s3_region: us-west-1
     s3_bucket: acme-docker
     storage_path: /registry
     s3_access_key: AAAAAAAAA
     s3_secret_key: BBBBBBBBB
+    search_backend: sqlalchemy
+    sqlalchemy_index_database: sqlite:////tmp/docker-registry.db
+    cache_host: "localhost"
+    cache_port: "6379"
+    cache_db:   "0"
 nginx:
-    version: "1.4.*"
+    version: "*"
     domain: "my.docker.registry.com"
     config_file: "/etc/nginx/conf.d/default.conf"
     auth_basic: "login docker registry"
