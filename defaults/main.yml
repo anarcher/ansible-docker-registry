@@ -1,7 +1,12 @@
 ---
 docker:
     version: "*"
+postgres:
+    use: yes
+    port: 5432
+    password: mysecretpassword
 redis:
+    use: yes
     version: "latest"
     port: "6379"
 registry:
@@ -18,9 +23,9 @@ registry:
     s3_secret_key: BBBBBBBBB
     search_backend: sqlalchemy
     sqlalchemy_index_database: sqlite:////tmp/docker-registry.db
-    cache_host: "localhost"
-    cache_port: "6379"
-    cache_db:   "0"
+    cache_redis_host: "localhost"
+    cache_redis_port: "6379"
+    cache_redis_db:   "0"
 nginx:
     version: "*"
     domain: "my.docker.registry.com"

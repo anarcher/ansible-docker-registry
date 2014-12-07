@@ -2,6 +2,20 @@
 - include: install_docker_ubuntu.yml
   when: "ansible_os_family == 'Ubuntu'"
 
+- name: Run redis container
+  docker:
+      name: redis
+      image: redis:2.8.17
+      ports: "{{ redis.port}}:{{ redis.port }}"
+  when: redis.use == "yes"
+
+- name: Run postgres container
+  docker:
+      name: postgres
+      image: postgres:9
+      ports: "{{ postgres.port }}:{{ postgres.port }}"
+  when: postgres.use == "yes"
+
 - name: Run registry container
   docker: 
       image: registry 
