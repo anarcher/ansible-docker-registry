@@ -1,5 +1,8 @@
 ---
 
+- name: Add python-pip package (for ansible)
+  apt: pkg=python-pip state=present
+
 - name: Add docker-py python module (for ansible)
   pip: name=docker-py state=present
 
