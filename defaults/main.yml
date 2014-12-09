@@ -2,11 +2,11 @@
 docker:
     version: "*"
 postgres:
-    use: yes
+    use: "no"
     port: 5432
     password: mysecretpassword
 redis:
-    use: yes
+    use: "yes"
     version: "latest"
     port: "6379"
 registry:
