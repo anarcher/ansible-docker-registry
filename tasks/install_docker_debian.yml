@@ -1,5 +1,8 @@
 ---
 
+- name: Add docker-py python module (for ansible)
+  pip: name=docker-py state=present
+
 - name: Add docker apt repository key
   apt_key: url=https://get.docker.io/gpg state=present
 
