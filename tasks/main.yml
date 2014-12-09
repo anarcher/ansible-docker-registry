@@ -20,7 +20,7 @@
   docker: 
       image: registry 
       ports: "{{ registry.host_port}}:{{ registry.container_port }}"
-      env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% endfor %}"
+      env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% if not loop.last %}{{','}}{% endif %}{% endfor %}"
 
 - name: Install nginx server
   apt: pkg=nginx{{ "="+nginx.version | default("") }} state=present update_cache=true cache_valid_time=3600
