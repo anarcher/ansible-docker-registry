@@ -33,7 +33,7 @@ registry:
 nginx:
     version: "*"
     domain: "my.docker.registry.com"
-    config_file: "/etc/nginx/sites-available/default.conf"
+    config_file: "/etc/nginx/sites-available/default"
     auth_basic: "login docker registry"
     auth_basic_user_file: "/etc/nginx/.registry.htpasswd"
     username: "admin"
