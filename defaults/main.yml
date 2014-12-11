@@ -16,16 +16,19 @@ registry:
     container_port: 5000
     settings_flavor: s3
     storage: s3
-    s3_region: us-west-1
-    s3_bucket: acme-docker
     storage_path: /registry
-    s3_access_key: AAAAAAAAA
-    s3_secret_key: BBBBBBBBB
+    aws_bucket: acme-docker
+    aws_region: us-west-1
+    aws_key: AWS_KEY
+    aws_seret: AWS_SECRET
     search_backend: sqlalchemy
     sqlalchemy_index_database: sqlite:////tmp/docker-registry.db
     cache_redis_host: "localhost"
     cache_redis_port: "6379"
     cache_redis_db:   "0"
+    cache_lru_redis_host: "localhost"
+    cache_lru_redis_port: "6379"
+    cache_lru_redis_db:   "0"
 nginx:
     version: "*"
     domain: "my.docker.registry.com"
