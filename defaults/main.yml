@@ -18,9 +18,9 @@ registry:
     storage: s3
     storage_path: /registry
     aws_bucket: acme-docker
-    aws_region: us-west-1
+    aws_region: 
     aws_key: AWS_KEY
-    aws_seret: AWS_SECRET
+    aws_secret: AWS_SECRET
     search_backend: sqlalchemy
     sqlalchemy_index_database: sqlite:////tmp/docker-registry.db
     cache_redis_host: "localhost"
