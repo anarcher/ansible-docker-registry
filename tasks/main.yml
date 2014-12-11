@@ -45,7 +45,7 @@
   when: nginx.ssl == "on"
 
 - name: Copy csr for nginx ssl 
-  copy: src= {{ nginx.ssl_certificate_key_src }} dest={{ nginx.ssl_certificate_key }}
+  copy: src={{ nginx.ssl_certificate_key_src }} dest={{ nginx.ssl_certificate_key }}
   when: nginx.ssl == "on"
 
 - name: Make nginx configuration for registry 
