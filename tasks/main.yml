@@ -34,8 +34,8 @@
       path: "{{ nginx.auth_basic_user_file }}"
       name: "{{ nginx.username }}"
       password: "{{ nginx.password }}"
-      owner: root
-      group: root
+      owner: www-data
+      group: www-data 
       mode: 0640
       state: present
   when: nginx.auth_basic != "off"
