@@ -2,16 +2,18 @@
 docker:
     version: "*"
 postgres:
+    version: "latest"
     use: "no"
     port: 5432
-    password: mysecretpassword
+    password: 
 redis:
-    use: "yes"
     version: "latest"
+    use: "yes"
     port: "6379"
 registry:
+    version: "latest"
     scale: 1
-    domain: "localhost"
+    domain: "registry"
     host_port: 5000
     container_port: 5000
     settings_flavor: s3
@@ -21,26 +23,28 @@ registry:
     aws_region: 
     aws_key: AWS_KEY
     aws_secret: AWS_SECRET
-    search_backend: sqlalchemy
+    search_backend: 
     sqlalchemy_index_database: sqlite:////tmp/docker-registry.db
-    cache_redis_host: "localhost"
+    cache_redis_host: "redis"
     cache_redis_port: "6379"
     cache_redis_db:   "0"
-    cache_lru_redis_host: "localhost"
+    cache_lru_redis_host: "redis"
     cache_lru_redis_port: "6379"
     cache_lru_redis_db:   "0"
     GUNICORN_OPTS: "[--preload]"
 nginx:
-    version: "*"
+    version: "latest"
+    host_port: 443
+    container_port: 443
+    config_dir_path: "/opt/nginx-registry"
     domain: "my.docker.registry.com"
-    config_file: "/etc/nginx/sites-available/default"
     auth_basic: "login docker registry"
-    auth_basic_user_file: "/etc/nginx/.registry.htpasswd"
+    auth_basic_user_file: "registry.htpasswd"
     username: "admin"
     password: "password"
     ssl: "on"
     ssl_certificate_src: "files/docker-registry.crt"
-    ssl_certificate_key_src: "files/docker-registry.csr"
-    ssl_certificate: "/etc/ssl/certs/docker-registry"
-    ssl_certificate_key: "/etc/ssl/private/docker-registry"
+    ssl_certificate_key_src: "files/docker-registry.key"
+    ssl_certificate: "docker-registry.crt"
+    ssl_certificate_key: "docker-registry.key"
 

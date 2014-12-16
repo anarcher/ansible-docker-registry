@@ -5,50 +5,63 @@
 - name: Run redis container
   docker:
       name: redis
-      image: redis:2.8.17
+      image: redis:{{ redis.version }}
       ports: "{{ redis.port}}:{{ redis.port }}"
   when: redis.use == "yes"
 
 - name: Run postgres container
   docker:
       name: postgres
-      image: postgres:9
+      image: postgres:{{ postgres.version }}
       ports: "{{ postgres.port }}:{{ postgres.port }}"
   when: postgres.use == "yes"
 
 - name: Run registry container
   docker: 
       name: registry
-      image: registry 
+      image: registry:{{ registry.version }}
       ports: "{{ registry.host_port}}:{{ registry.container_port }}"
       env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% if not loop.last %}{{','}}{% endif %}{% endfor %}"
-
-- name: Install nginx server
-  apt: pkg=nginx{{ "="+nginx.version | default("") }} state=present update_cache=true cache_valid_time=3600
+      links: 
+        - redis:redis
 
 - name: Install python-passlib for htpasswd ansible module
   apt: pkg=python-passlib state=present update_cache=true #for htpasswd
 
+- name: Ensure nginx config dir
+  file: path={{ nginx.config_dir_path }} state=directory 
+
 - name: Make basic auth for nginx
   htpasswd:
-      path: "{{ nginx.auth_basic_user_file }}"
+      path: "{{ nginx.config_dir_path}}/{{ nginx.auth_basic_user_file }}"
       name: "{{ nginx.username }}"
       password: "{{ nginx.password }}"
-      owner: www-data
-      group: www-data 
-      mode: 0640
+      owner: root
+      group: root 
+      mode: 0644
       state: present
   when: nginx.auth_basic != "off"
 
-- name: Copy crt for nginx ssl
-  copy: src={{ nginx.ssl_certificate_src }} dest={{ nginx.ssl_certificate }}
+- name: Copy ca for nginx ssl
+  copy: src={{ nginx.ssl_certificate_src }} dest={{ nginx.config_dir_path }}/{{ nginx.ssl_certificate }}
   when: nginx.ssl == "on"
 
-- name: Copy csr for nginx ssl 
-  copy: src={{ nginx.ssl_certificate_key_src }} dest={{ nginx.ssl_certificate_key }}
+- name: Copy key for nginx ssl 
+  copy: src={{ nginx.ssl_certificate_key_src }} dest={{ nginx.config_dir_path }}/{{ nginx.ssl_certificate_key }}
   when: nginx.ssl == "on"
 
-- name: Make nginx configuration for registry 
-  template: src=nginx.registry.conf dest={{ nginx.config_file }}
-  notify:
-      - start nginx
+- name: Make nginx configuration for registry
+  template: src=nginx.registry.conf dest="{{ nginx.config_dir_path }}/nginx.conf"
+
+- name: Run nginx container
+  docker: 
+      name: nginx
+      image: nginx:{{ nginx.version }} 
+      ports: "{{ nginx.host_port}}:{{ nginx.container_port }}"
+      links: 
+        - registry:registry
+      volumes: 
+        - "{{ nginx.config_dir_path }}/nginx.conf:/etc/nginx/nginx.conf"
+        - "{{ nginx.config_dir_path }}/{{ nginx.auth_basic_user_file }}:/etc/nginx/registry.htpasswd"
+        - "{{ nginx.config_dir_path }}/{{ nginx.ssl_certificate }}:/etc/nginx/registry.crt"
+        - "{{ nginx.config_dir_path }}/{{ nginx.ssl_certificate_key }}:/etc/nginx/registry.key"
