@@ -22,8 +22,7 @@
       image: registry:{{ registry.version }}
       ports: "{{ registry.host_port}}:{{ registry.container_port }}"
       env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% if not loop.last %}{{','}}{% endif %}{% endfor %}"
-      links: 
-        - redis:redis
+      links: "{% if redis.use == 'yes' %}redis:redis{% endif %}"
 
 - name: Install python-passlib for htpasswd ansible module
   apt: pkg=python-passlib state=present update_cache=true #for htpasswd
