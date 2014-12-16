@@ -4,18 +4,17 @@ docker:
 postgres:
     version: "latest"
     use: "no"
-    port: 5432
+    ports: "5432"
     password: 
 redis:
     version: "latest"
     use: "yes"
-    port: "6379"
+    ports: "6379"
 registry:
     version: "latest"
     scale: 1
     domain: "registry"
-    host_port: 5000
-    container_port: 5000
+    ports: "5000"
     settings_flavor: s3
     storage: s3
     storage_path: /registry
@@ -34,8 +33,7 @@ registry:
     GUNICORN_OPTS: "[--preload]"
 nginx:
     version: "latest"
-    host_port: 443
-    container_port: 443
+    ports: "443:443,80:80"
     config_dir_path: "/opt/nginx-registry"
     domain: "my.docker.registry.com"
     auth_basic: "login docker registry"

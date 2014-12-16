@@ -6,21 +6,21 @@
   docker:
       name: redis
       image: redis:{{ redis.version }}
-      ports: "{{ redis.port}}:{{ redis.port }}"
+      ports: "{{ redis.ports }}"
   when: redis.use == "yes"
 
 - name: Run postgres container
   docker:
       name: postgres
       image: postgres:{{ postgres.version }}
-      ports: "{{ postgres.port }}:{{ postgres.port }}"
+      ports: "{{ postgres.ports }}"
   when: postgres.use == "yes"
 
 - name: Run registry container
   docker: 
       name: registry
       image: registry:{{ registry.version }}
-      ports: "{{ registry.host_port}}:{{ registry.container_port }}"
+      ports: "{{ registry.ports }}"
       env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% if not loop.last %}{{','}}{% endif %}{% endfor %}"
       links: "{% if redis.use == 'yes' %}redis:redis{% endif %}"
 
@@ -56,7 +56,7 @@
   docker: 
       name: nginx
       image: nginx:{{ nginx.version }} 
-      ports: "{{ nginx.host_port}}:{{ nginx.container_port }}"
+      ports: "{{ nginx.ports }}"
       links: 
         - registry:registry
       volumes: 
