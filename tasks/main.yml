@@ -43,11 +43,11 @@
 
 - name: Copy ca for nginx ssl
   copy: src={{ nginx.ssl_certificate_src }} dest={{ nginx.config_dir_path }}/{{ nginx.ssl_certificate }}
-  when: nginx.ssl == "on"
+  when: nginx.use_ssl == True
 
 - name: Copy key for nginx ssl 
   copy: src={{ nginx.ssl_certificate_key_src }} dest={{ nginx.config_dir_path }}/{{ nginx.ssl_certificate_key }}
-  when: nginx.ssl == "on"
+  when: nginx.use_ssl == True
 
 - name: Make nginx configuration for registry
   template: src=nginx.registry.conf dest="{{ nginx.config_dir_path }}/nginx.conf"

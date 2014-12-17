@@ -33,14 +33,15 @@ registry:
     GUNICORN_OPTS: "[--preload]"
 nginx:
     version: "latest"
-    ports: "443:443,80:80"
+    ports: "80:80"
     config_dir_path: "/opt/nginx-registry"
     domain: "my.docker.registry.com"
     auth_basic: "login docker registry"
     auth_basic_user_file: "registry.htpasswd"
     username: "admin"
     password: "password"
-    ssl: "on"
+    use_ssl: False
+    use_redirect_ssl: False
     ssl_certificate_src: "files/docker-registry.crt"
     ssl_certificate_key_src: "files/docker-registry.key"
     ssl_certificate: "docker-registry.crt"
