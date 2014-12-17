@@ -1,5 +1,4 @@
 ---
-
 - name: Add python-pip package (for ansible)
   apt: pkg=python-pip state=present
 
@@ -14,6 +13,3 @@
 
 - name: install docker via apt
   apt: pkg=lxc-docker{{ "-"+docker.version | default("") }} state=present update_cache=yes
-
-
-

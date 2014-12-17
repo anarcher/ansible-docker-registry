@@ -64,3 +64,13 @@
         - "{{ nginx.config_dir_path }}/{{ nginx.auth_basic_user_file }}:/etc/nginx/registry.htpasswd"
         - "{{ nginx.config_dir_path }}/{{ nginx.ssl_certificate }}:/etc/nginx/registry.crt"
         - "{{ nginx.config_dir_path }}/{{ nginx.ssl_certificate_key }}:/etc/nginx/registry.key"
+
+- name: logrotate
+  logrotate: name=docker-log path=/var/lib/docker/containers/*/*.log
+  args:
+    options:
+        - daily
+        - size 200M
+        - rotate 3 
+        - missingok
+        - copytruncate

@@ -10,3 +10,6 @@ galaxy_info:
     categories:
     - system
     - development
+dependencies:
+    - { role: retr0h.logrotate }
+
