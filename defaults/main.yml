@@ -11,6 +11,7 @@ redis:
     use: "yes"
     ports: "6379"
 registry:
+    image: "registry"
     version: "latest"
     scale: 1
     domain: "registry"

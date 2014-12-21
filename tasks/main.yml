@@ -19,7 +19,7 @@
 - name: Run registry container
   docker: 
       name: registry
-      image: registry:{{ registry.version }}
+      image: "{{ registry.image }}:{{ registry.version }}"
       ports: "{{ registry.ports }}"
       env: "{% for key,value in registry.iteritems() %}{{ key|upper }}={{ value }}{% if not loop.last %}{{','}}{% endif %}{% endfor %}"
       links: "{% if redis.use == 'yes' %}redis:redis{% endif %}"
