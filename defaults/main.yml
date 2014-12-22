@@ -4,29 +4,30 @@ docker:
 postgres:
     version: "latest"
     use: "no"
-    ports: "5432"
+    ports: "5432:5432"
     password: 
 redis:
     version: "latest"
     use: "yes"
-    ports: "6379"
+    ports: "6379:6379"
 registry:
     image: "registry"
     version: "latest"
     scale: 1
     domain: "registry"
-    ports: "5000"
+    ports: "5000:5000"
     settings_flavor: s3
     storage: s3
     storage_path: /registry
+    storage_redirect: true
     aws_bucket: acme-docker
     aws_region: 
     aws_key: AWS_KEY
     aws_secret: AWS_SECRET
-    cache_redis_host: "redis"
+    cache_redis_host: "{{ ansible_docker0.ipv4.address }}"
     cache_redis_port: "6379"
     cache_redis_db:   "0"
-    cache_lru_redis_host: "redis"
+    cache_lru_redis_host: "{{ ansible_docker0.ipv4.address }}"
     cache_lru_redis_port: "6379"
     cache_lru_redis_db:   "0"
 nginx:
