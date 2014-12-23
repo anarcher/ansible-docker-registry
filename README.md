@@ -13,6 +13,12 @@ For now, The role used a host port based connection between containers.
 
 # Quick start
 
+- Install the role.
+
+```
+sudo  ansible-galaxy install anarcher.docker-registry 
+```
+
 - playbook.yml
 
 ```
@@ -54,6 +60,18 @@ For now, The role used a host port based connection between containers.
           #ssl_certificate_key_src: "files/nginx.key.nopass.pem"
 
 ```
+
+- ansible.cfg
+
+```
+
+[defaults]
+hash_behaviour = merge
+
+```
+
+Note that the role used nested hash variables (redis,postgres,registry,nginx).
+If you want to use it. you should change *hash_behaviour = merge* in ansible.cfg
 
 - play playbook
 
