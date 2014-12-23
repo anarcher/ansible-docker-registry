@@ -70,8 +70,8 @@ hash_behaviour = merge
 
 ```
 
-Note that the role used nested hash variables (redis,postgres,registry,nginx).
-If you want to use it. you should change *hash_behaviour = merge* in ansible.cfg
+Note that the role uses an nested hash variables (redis,postgres,registry,nginx).
+If you want to use it. you should change *hash_behaviour = merge* in ansible.cfg. (https://github.com/anarcher/ansible-docker-registry/blob/master/defaults/main.yml)
 
 - play playbook
 
