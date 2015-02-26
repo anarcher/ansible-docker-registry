@@ -30,6 +30,12 @@ registry:
     cache_lru_redis_host: "{{ ansible_docker0.ipv4.address }}"
     cache_lru_redis_port: "6379"
     cache_lru_redis_db:   "0"
+registry_searcher:
+    use: False
+    ports: "6000:6000"
+    version: "0.1.0"
+    image: "anarcher/docker-registry-searcher"
+    debug: "true"
 nginx:
     version: "latest"
     ports: "80:80"
