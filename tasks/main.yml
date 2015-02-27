@@ -29,7 +29,7 @@
       name: registry_searcher
       image: "{{ registry_searcher.image }}:{{ registry_searcher.version }}"
       ports: "{{ registry_searcher.ports }}"
-      env: "DS_DEBUG={{ registry_searcher.debug }},DS_PORT={{ registry_searcher.ports.split(':')[1] }},DS_AWS_ACCESS_KEY={{ registry.aws_key}},DS_AWS_SECRET_KEY={{ registry.aws_secret }},DS_S3_BUCKET={{ registry.aws_bucket }}"
+      env: "DS_DEBUG={{ registry_searcher.debug }},DS_PORT={{ registry_searcher.ports.split(':')[1] }},DS_AWS_ACCESS_KEY={{ registry.aws_key}},DS_AWS_SECRET_KEY={{ registry.aws_secret }},DS_S3_BUCKET={{ registry.aws_bucket }},DS_AWS_REGION={{ registry.aws_region }}"
   when: registry_searcher.use == True
 
 - name: Install python-passlib for htpasswd ansible module
